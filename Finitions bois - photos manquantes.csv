@@ -2,11 +2,6 @@
 Fredericia;A-Chair;a-chair;4;Noyer laqué | Chêne laqué | Chêne huilé | Chêne laqué noir
 Fredericia;BM29 Shelf;bm29;2;Chêne | Noyer laqué
 Fredericia;BM61 Chair & BM62 Armchair;bm61-62;3;Chêne huilé | Chêne laqué noir | Chêne laqué
-Fredericia;BM67 Coffee Table;bm67;4;Chêne huilé clair | Chêne savonné | Chêne huilé | Chêne fumé
-Fredericia;BM71 Library Table;bm71;2;Chêne laqué | Chêne huilé
-Fredericia;BM80 Mogensen Table;bm80;4;Chêne savonné | Chêne huilé | Chêne huilé clair | Chêne fumé huilé
-Fredericia;BM84 Mogensen Table;bm84;5;Chêne huilé | Chêne huilé clair | Chêne savonné | Chêne fumé | Chêne fumé huilé
-Fredericia;C18 Table;c18;4;Chêne savonné | Chêne huilé | Chêne huilé clair | Chêne fumé huilé
 Fredericia;Calmo Ottoman;calmo-ottoman;2;Chêne laqué | Chêne fumé teinté laqué
 Fredericia;Calmo Sofa;calmo-sofa;3;Chêne laqué | Chêne fumé teinté laqué | Chêne
 Fredericia;Canvas 21 Chair;canvas-21;4;Chêne savonné | Chêne huilé | Chêne huilé clair | Chêne fumé huilé
@@ -17,7 +12,6 @@ Fredericia;EJ315 Sofa;ej315;4;Chêne savonné | Chêne huilé clair | Noyer | Ch
 Fredericia;Eyes Lounge;eyes-lounge;2;Chêne laqué | Chêne fumé
 Fredericia;Gallery Stool;gallery-stool;1;Noyer laqué
 Fredericia;Gomo Armchair;gomo-armchair;3;Chêne laqué | Chêne laqué noir | Chêne fumé teinté laqué
-Fredericia;Islets Coffee & Side Tables;islets-low;2;Chêne huilé clair | Chêne fumé huilé
 Fredericia;Islets Dining Table;islets-dining;2;Chêne huilé clair | Chêne fumé huilé
 Fredericia;J39 Mogensen Chair;j39;4;Chêne savonné · cordage naturel | Chêne huilé · cordage naturel | Noyer huilé · cordage naturel | Hêtre laqué noir · cordage naturel
 Fredericia;Jota Lounge Chair;jota-lounge;2;Chêne laqué noir | Chêne huilé clair
@@ -33,23 +27,23 @@ Fredericia;Mogensen Bench & 3236 Chair;mogensen-bench;5;Chêne laqué noir | Ch�
 Fredericia;Mogensen Coupé Sofa;bm-coupe;5;Chêne savonné | Chêne huilé clair | Chêne laqué noir | Chêne huilé | Noyer huilé
 Fredericia;Mogensen Ottoman;mogensen-ottoman;5;Chêne savonné | Chêne huilé clair | Chêne laqué noir | Chêne huilé | Noyer huilé
 Fredericia;Mogensen Wing Chair & Club Chair;mogensen-wing;5;Chêne huilé clair | Chêne savonné | Chêne huilé | Noyer huilé | Chêne laqué noir
-Fredericia;ND09 Coat Stand;nd09;3;Chêne huilé | Chêne | Chêne huilé clair
+Fredericia;ND09 Coat Stand;nd09;1;Chêne
 Fredericia;ND82 Sofa;nd82-sofa;4;Chêne huilé | Chêne savonné | Noyer huilé | Chêne fumé huilé
 Fredericia;ND83 Lounge Chair;nd83-lounge;3;Chêne savonné | Noyer huilé | Chêne fumé huilé
 Fredericia;ND93 Writing Desk (5092, 5093 & 5094);nd93-desk;4;Chêne savonné | Chêne huilé | Chêne laqué | Noyer huilé
 Fredericia;Niveau Coffee Table;niveau;1;Frêne
 Fredericia;No. 1 Sofa;no1-sofa;2;Chêne savonné | Chêne laqué noir
 Fredericia;Pal Table;pal;3;Noyer huilé | Chêne huilé clair | Noyer laqué
-Fredericia;Piloti Tables;piloti;3;Chêne huilé clair | Chêne fumé huilé | Chêne laqué noir
 Fredericia;Pioneer Stool;pioneer-stool;2;Chêne fumé teinté | Hêtre laqué noir
 Fredericia;Plan Barstool;plan-barstool;1;Chêne laqué
 Fredericia;Plan Chair & Armchair;plan-chair;1;Chêne laqué
+Fredericia;Plan Studio Chair, assise bois (3452);plan-studio-3452;2;Chêne laqué | Frêne noir
+Fredericia;Plan Studio Chair, assise garnie (3453);plan-studio-3453;2;Chêne laqué | Frêne noir
 Fredericia;Plan Table;plan-table;3;Chêne | Chêne huilé clair | Chêne fumé
 Fredericia;Plan Wood Chair;plan-wood;2;Chêne laqué | Chêne huilé
 Fredericia;Pon Table;pon-table;3;Chêne huilé | Chêne savonné | Chêne laqué noir
 Fredericia;Post Armchair;post-armchair;4;Chêne huilé clair | Chêne laqué | Chêne huilé | Chêne laqué noir
 Fredericia;Post Lounge Chair;post-lounge;3;Chêne laqué | Chêne huilé | Chêne laqué noir
-Fredericia;Post Table;post-table;5;Chêne huilé clair | Chêne fumé huilé | Chêne savonné | Chêne laqué | Chêne huilé
 Fredericia;Seto Stool;seto;2;Chêne laqué noir | Chêne huilé clair
 Fredericia;Silhouette Mirror;mirror;2;Noyer | Chêne huilé clair
 Fredericia;Spine Lounge;spine-lounge;2;Chêne laqué | Chêne
@@ -66,7 +60,7 @@ Fredericia;The Spanish Dining Chair;spanish-dining;3;Chêne savonné · cuir cog
 Fredericia;The Spoke-Back Sofa;spoke-back-1789;4;Chêne savonné | Chêne laqué noir | Chêne huilé | Hêtre savonné
 Fredericia;Trinidad;trinidad;3;Hêtre | Noyer laqué | Chêne laqué
 Fredericia;Trinidad Barstool;trinidad-barstool;2;Chêne laqué | Chêne huilé
-Fredericia;Trisse Stool;trisse-stool;4;Chêne huilé | Chêne huilé clair | Chêne fumé huilé | Chêne
+Fredericia;Trisse Stool;trisse-stool;1;Chêne
 Fredericia;Trisse Tables;trisse-tables;4;Chêne huilé | Chêne huilé clair | Chêne fumé huilé | Chêne
 Fredericia;Wegner 1788 Easy Chair;spoke-back-1788;2;Chêne savonné | Chêne huilé
 Fredericia;Wegner J16 Rocking Chair;j16;4;Chêne laqué noir | Noyer huilé | Chêne savonné | Chêne huilé

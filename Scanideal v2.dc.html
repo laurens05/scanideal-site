@@ -498,7 +498,33 @@ button,a{transition:color .45s var(--ease),background-color .55s var(--ease),bor
   <section style="max-width:1440px;margin:0 auto;padding:clamp(48px,7vw,96px) clamp(20px,4vw,56px) 0">
     <div style="font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#6B655C;margin-bottom:18px">Marques</div>
     <h1 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(44px,6vw,84px);line-height:1;margin:0 0 24px;letter-spacing:-.02em">Sept maisons danoises</h1>
-    <p style="max-width:620px;margin:0 0 64px;font-size:17px;line-height:1.7;color:#4A453E">Des fabricants choisis pour la qualité de leur fabrication et la cohérence de leur design, du mobilier résidentiel au collectif.</p>
+    <p style="max-width:620px;margin:0 0 40px;font-size:17px;line-height:1.7;color:#4A453E">Des fabricants choisis pour la qualité de leur fabrication et la cohérence de leur design, du mobilier résidentiel au collectif.</p>
+    <div style="position:relative;margin:0 0 72px;background:#EAE4DA;overflow:hidden" onMouseEnter="{{ pauseSlides }}" onMouseLeave="{{ playSlides }}">
+      <div style="position:relative;height:clamp(420px,52vw,600px)">
+        <sc-for list="{{ slides }}" as="sl" hint-placeholder-count="3">
+          <button onClick="{{ sl.open }}" aria-label="{{ sl.name }}" style="position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;background:none;cursor:pointer;text-align:left;color:#1C1B19;display:flex;flex-wrap:wrap;opacity:{{ sl.op }};visibility:{{ sl.vis }};transition:opacity .9s ease,visibility .9s">
+            <div style="flex:1 1 280px;min-width:260px;padding:clamp(24px,4vw,56px);display:flex;flex-direction:column;justify-content:flex-end;order:2">
+              <div style="font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#6B655C;margin-bottom:14px">{{ sl.brandName }}</div>
+              <div style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(28px,3.4vw,46px);line-height:1.08;letter-spacing:-.01em;margin-bottom:10px">{{ sl.name }}</div>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:18px;color:#6B655C;margin-bottom:22px">{{ sl.designer }}</div>
+              <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;border-bottom:1px solid #1C1B19;align-self:flex-start;padding-bottom:4px">Voir la fiche</div>
+            </div>
+            <div class="media {{ sl.cls }}" style="flex:2 1 320px;min-height:240px;order:1;background:#EAE4DA">
+              <div role="img" style="width:100%;height:100%;background-image:url({{ sl.img }});background-size:{{ sl.size }};background-position:center;background-repeat:no-repeat"></div>
+            </div>
+          </button>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:6px 22px;flex-wrap:wrap;padding:12px clamp(24px,4vw,56px) 14px;border-top:1px solid rgba(28,27,25,.12);padding-right:120px">
+        <sc-for list="{{ slideBrands }}" as="d" hint-placeholder-count="7">
+          <button onClick="{{ d.go }}" aria-label="{{ d.label }}" style="border:0;background:none;padding:6px 0;cursor:pointer;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:{{ d.color }};border-bottom:1px solid {{ d.line }}">{{ d.label }}</button>
+        </sc-for>
+      </div>
+      <div style="position:absolute;right:clamp(16px,3vw,40px);bottom:clamp(16px,2vw,28px);display:flex;gap:10px">
+        <button onClick="{{ prevSlide }}" aria-label="Précédent" style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(28,27,25,.4);background:rgba(255,255,255,.6);cursor:pointer;font-size:18px;color:#1C1B19">‹</button>
+        <button onClick="{{ nextSlide }}" aria-label="Suivant" style="width:40px;height:40px;border-radius:50%;border:1px solid rgba(28,27,25,.4);background:rgba(255,255,255,.6);cursor:pointer;font-size:18px;color:#1C1B19">›</button>
+      </div>
+    </div>
     <div style="border-top:1px solid rgba(28,27,25,.14)">
       <sc-for list="{{ brands }}" as="b" hint-placeholder-count="6">
         <button onClick="{{ b.open }}" class="card" style="width:100%;text-align:left;background:none;border:0;border-bottom:1px solid rgba(28,27,25,.14);padding:32px 0;cursor:pointer;color:#1C1B19;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px 40px;align-items:center" style-hover="background:#EFEAE1">
@@ -976,7 +1002,7 @@ button,a{transition:color .45s var(--ease),background-color .55s var(--ease),bor
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;heroLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Plein écran&quot;,&quot;Éditorial&quot;],&quot;default&quot;:&quot;Plein écran&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Accueil&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Aérée&quot;,&quot;Compacte&quot;],&quot;default&quot;:&quot;Aérée&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Catalogue&quot;}}">
 class Component extends DCLogic {
-  state = { page: 'home', param: null, xi: 0, fm: null, brandF: 'all', catF: 'Tous', q: '', sel: [], drawer: false, fOpen: false, finish: 0, f2: 0, f3: 0, zoom: false, gal: null, qty: 1, acc: 'dims', refF: 'Tous', blogF: 'Tous', form: { name: '', email: '', company: '', profile: "Architecte d'intérieur", message: '' }, errors: {}, sent: false, nl: '', nlDone: false };
+  state = { page: 'home', param: null, slide: 0, xi: 0, fm: null, brandF: 'all', catF: 'Tous', q: '', sel: [], drawer: false, fOpen: false, finish: 0, f2: 0, f3: 0, zoom: false, gal: null, qty: 1, acc: 'dims', refF: 'Tous', blogF: 'Tous', form: { name: '', email: '', company: '', profile: "Architecte d'intérieur", message: '' }, errors: {}, sent: false, nl: '', nlDone: false };
 
   D = (() => {
     const B = 'https://scanideal1.netlify.app/images/';
@@ -1353,11 +1379,12 @@ class Component extends DCLogic {
   componentDidMount() {
     this.lastK = this.state.page + ':' + this.state.param;
     this.reveal();
+    try { if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) this.slideTimer = setInterval(() => { if (this.state.page === 'brands' && !this.paused && this.slideN) this.setState(st => ({ slide: (st.slide + 1) % this.slideN })); }, 5500); } catch (x) {}
     this.onScroll = () => { if (this.raf) return; this.raf = requestAnimationFrame(() => { this.raf = 0; this.scrollFx(); }); };
     try { window.addEventListener('scroll', this.onScroll, { passive: true }); this.scrollFx(); } catch (x) {}
   }
   componentDidUpdate() { const k = this.state.page + ':' + this.state.param; if (k !== this.lastK) { this.lastK = k; setTimeout(() => { this.reveal(); this.scrollFx(); }, 30); } }
-  componentWillUnmount() { this.io && this.io.disconnect(); this.mio && this.mio.disconnect(); try { window.removeEventListener('scroll', this.onScroll); } catch (x) {} }
+  componentWillUnmount() { clearInterval(this.slideTimer); this.io && this.io.disconnect(); this.mio && this.mio.disconnect(); try { window.removeEventListener('scroll', this.onScroll); } catch (x) {} }
   scrollFx() {
     try {
       const y = window.scrollY, h = document.querySelector('.hdr');
@@ -1438,6 +1465,13 @@ class Component extends DCLogic {
     const navDef = [['Catalogue', 'catalogue', ['catalogue', 'product']], ['Marques', 'brands', ['brands', 'brand']], ['Designers', 'designers', ['designers', 'designer']], ['Savoir-faire', 'savoir', ['savoir']], ['Journal', 'journal', ['journal', 'article']], ['À propos', 'about', ['about']], ['Contact', 'contact', ['contact']]];
     const nav = navDef.map(([label, pg, act]) => { const on = act.includes(s.page); return { label, go: () => this.go(pg), color: on ? '#1C1B19' : '#4A453E', line: on ? '#1C1B19' : 'transparent' }; });
 
+    const SLIDE_PICKS = [['fredericia', ['j39', 'nd83-lounge', 'plan-studio-3458', 'nd82-sofa', 'spanish-chair']], ['naver', ['obelisk-3182', 'tiger-chair', 'chess-3420']], ['loca', ['knax-10', 'knax-stool', 'straights-shelf']], ['cph', ['cph-eggy-pop-pendant', 'cph-peak', 'cph-nola-pendant']], ['rye', ['rye-curved', 'rye-veng', 'lit-rye']], ['viacph', ['hyperbel']], ['savir', ['gate-reflect', 'gate-11-lounge', 'tower']]];
+    const slidesAll = [];
+    SLIDE_PICKS.forEach(([bid, ids]) => ids.forEach(id => { const p = products.find(q => q.id === id); if (p) { const am = (p.extra || []).find(e => /\/amb-/.test(e)); const im = am || p.img; if (im) slidesAll.push({ p, bid, im, isAmb: !!am || !!p.amb }); } }));
+    this.slideN = slidesAll.length;
+    const cur = slidesAll.length ? s.slide % slidesAll.length : 0;
+    const slides = slidesAll.map((o, i) => ({ img: o.im, size: o.isAmb ? 'cover' : 'contain', cls: (!o.isAmb && cut(o.im)) ? 'cut' : '', name: o.p.name, designer: (o.p.designer || '').replace(/,\s*\d{4}$/, ''), brandName: (brands.find(b => b.id === o.bid) || {}).name, op: i === cur ? 1 : 0, vis: i === cur ? 'visible' : 'hidden', open: () => this.go('product', o.p.id) }));
+    const slideBrands = brands.map(b => { const first = slidesAll.findIndex(o => o.bid === b.id); const on = first >= 0 && slidesAll[cur] && slidesAll[cur].bid === b.id; return { label: b.name, go: () => this.setState({ slide: Math.max(0, first) }), color: on ? '#1C1B19' : '#6B655C', line: on ? '#1C1B19' : 'transparent' }; });
     const brandsV = brands.map(b => ({ ...b, noImg: !b.img, pos: b.pos || 'center', cls: cut(b.img) ? 'cut' : '', count: products.filter(p => p.brand === b.id).length + ' pièces', open: () => this.go('brand', b.id) }));
 
     const cats = ['Tous', ...Array.from(new Set(products.map(p => p.cat)))];
@@ -1490,7 +1524,7 @@ class Component extends DCLogic {
 
     return {
       pageKey: s.page + ':' + (s.param || ''), marquee: [...brands, ...brands].map(b => b.name),
-      nav, navLeft: nav.slice(0, 3), navRight: nav.slice(3), brands: brandsV, isHome: s.page === 'home', isCatalogue: s.page === 'catalogue', isProduct: s.page === 'product', isBrands: s.page === 'brands', isBrand: s.page === 'brand', isSavoir: s.page === 'savoir', isRefs: s.page === 'refs', isRef: s.page === 'ref', isJournal: s.page === 'journal', isArticle: s.page === 'article', isAbout: s.page === 'about', isContact: s.page === 'contact',
+      slides, slideBrands, pauseSlides: () => { this.paused = true; }, playSlides: () => { this.paused = false; }, prevSlide: () => this.setState(st => ({ slide: (st.slide - 1 + (this.slideN || 1)) % (this.slideN || 1) })), nextSlide: () => this.setState(st => ({ slide: (st.slide + 1) % (this.slideN || 1) })), nav, navLeft: nav.slice(0, 3), navRight: nav.slice(3), brands: brandsV, isHome: s.page === 'home', isCatalogue: s.page === 'catalogue', isProduct: s.page === 'product', isBrands: s.page === 'brands', isBrand: s.page === 'brand', isSavoir: s.page === 'savoir', isRefs: s.page === 'refs', isRef: s.page === 'ref', isJournal: s.page === 'journal', isArticle: s.page === 'article', isAbout: s.page === 'about', isContact: s.page === 'contact',
       heroFull: heroLayout === 'Plein écran', heroSplit: heroLayout !== 'Plein écran',
       goHome: () => this.go('home'), goLegal: () => this.go('legal'), isLegal: s.page === 'legal', goCatalogue: () => this.go('catalogue'), goContact: () => this.go('contact'), goAbout: () => this.go('about'), goSavoir: () => this.go('savoir'), goBrands: () => this.go('brands'), goRefs: () => this.go('refs'), goJournal: () => this.go('journal'),
       featured: products.filter(p => p.feat).map(pc),

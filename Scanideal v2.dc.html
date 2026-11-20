@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./i18n.js"></script>
 </head>
 <body>
 <x-dc>
@@ -20,6 +21,12 @@ input,textarea,select,button{font-family:inherit}
 ::selection{background:#1C1B19;color:#F4F0E9}
 :root{--ease:cubic-bezier(.2,.7,.2,1)}
 button,a{transition:color .45s var(--ease),background-color .55s var(--ease),border-color .45s var(--ease),opacity .45s var(--ease)}
+/* Sélecteur de langue FR / EN : discret, la langue active est un peu plus soutenue */
+.lsw{display:inline-flex;align-items:center;gap:5px;font-size:11px;letter-spacing:.16em}
+.lsw i{font-style:normal;color:#B9B1A4}
+.lsw button{background:none;border:0;padding:6px 1px;margin:0;cursor:pointer;font-size:11px;letter-spacing:.16em;color:#A39B8E}
+.lsw button:hover{color:#7D5C36}
+html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{color:#1C1B19;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
 /* En-tête : ombre légère au défilement */
 .hdr{transition:box-shadow .6s var(--ease),background-color .6s var(--ease)}
 .hdr.scrolled{box-shadow:0 18px 40px -32px rgba(28,27,25,.55);background:rgba(244,240,233,.97)}
@@ -78,7 +85,8 @@ button,a{transition:color .45s var(--ease),background-color .55s var(--ease),bor
       <button onClick="{{ goHome }}" style="background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center">
         <img class="logo" src="assets/scanideal-logo.png" alt="Scanideal" style="height:34px;mix-blend-mode:multiply;display:block">
       </button>
-      <div style="display:flex;justify-content:flex-end">
+      <div style="display:flex;justify-content:flex-end;align-items:center;gap:clamp(14px,2vw,26px)">
+        <span class="lsw" data-no-i18n="1" translate="no"><button type="button" data-lang="fr" aria-label="Français">FR</button><i>/</i><button type="button" data-lang="en" aria-label="English">EN</button></span>
         <button onClick="{{ openDrawer }}" style="white-space:nowrap;background:none;border:0;padding:6px 0;font-size:12px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;color:#1C1B19" style-hover="color:#7D5C36">Sélection ({{ selCount }})</button>
       </div>
     </div>

@@ -362,7 +362,7 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
       <div style="font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#6B655C">02 — France</div>
       <div>
         <h3 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(32px,3.4vw,48px);line-height:1.05;margin:0 0 18px">Un interlocuteur unique en France</h3>
-        <p style="font-size:16px;line-height:1.65;color:#4A453E;margin:0 0 28px;max-width:460px">Présentation des collections, échantillons, chiffrage et suivi de projet : Scanideal fait le lien entre les fabricants danois et vos clients.</p>
+        <p style="font-size:16px;line-height:1.65;color:#4A453E;margin:0 0 28px;max-width:460px">Présentation des collections, chiffrage et suivi de projet, avec des échantillons si le projet s'y prête : Scanideal fait le lien entre les fabricants danois et vos clients.</p>
         <span class="ul" style="font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;border-bottom:1px solid #1C1B19;padding-bottom:4px">Notre accompagnement</span>
       </div>
     </button>
@@ -656,7 +656,7 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
           </div>
           <button onClick="{{ addToSel }}" style="flex:1;min-width:220px;background:#1C1B19;color:#F4F0E9;border:0;padding:0 24px;height:54px;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer" style-hover="background:#7D5C36">Ajouter à ma sélection</button>
         </div>
-        <div style="font-size:13px;color:#6B655C">Prix et délais sur demande · Échantillons de finitions disponibles</div>
+        <div style="font-size:13px;color:#6B655C">Prix et délais sur demande · Échantillons de finitions selon le projet</div>
         <div style="border-top:1px solid rgba(28,27,25,.14)">
           <sc-for list="{{ accItems }}" as="ac" hint-placeholder-count="4">
             <div style="border-bottom:1px solid rgba(28,27,25,.14)">
@@ -1062,7 +1062,7 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
   <section style="max-width:1440px;margin:0 auto;padding:clamp(48px,7vw,96px) clamp(20px,4vw,56px) 0">
     <div style="font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#6B655C;margin-bottom:18px">À propos</div>
     <h1 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(44px,6.4vw,96px);line-height:.98;margin:0;letter-spacing:-.02em;max-width:1000px;text-wrap:balance">Le design danois, représenté en France</h1>
-    <p style="font-family:'Newsreader',serif;font-style:italic;font-size:clamp(22px,2.4vw,30px);color:#6B655C;margin:24px 0 0">Agent commercial de sept maisons danoises, à vos côtés du premier échantillon à la livraison.</p>
+    <p style="font-family:'Newsreader',serif;font-style:italic;font-size:clamp(22px,2.4vw,30px);color:#6B655C;margin:24px 0 0">Agent commercial de sept maisons danoises, à vos côtés du premier conseil à la livraison.</p>
   </section>
   <section style="max-width:1440px;margin:clamp(48px,6vw,80px) auto 0;padding:0 clamp(20px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(32px,6vw,96px);align-items:start">
     <figure style="margin:0;display:flex;flex-direction:column;gap:16px">
@@ -1071,7 +1071,7 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
     </figure>
     <div style="font-size:17px;line-height:1.7;color:#4A453E;display:flex;flex-direction:column;gap:20px;padding-top:12px">
       <p style="margin:0;font-family:'Newsreader',serif;font-size:clamp(22px,2.2vw,27px);line-height:1.45;color:#1C1B19">Scanideal représente en France une sélection de fabricants danois de mobilier et de luminaires design, dont Fredericia Furniture, Naver Collection, Loca, CPH Lighting, VIA Copenhagen, Rye Sleep et Savir Design.</p>
-      <p style="margin:0">Notre rôle : présenter les collections, conseiller sur les finitions, fournir échantillons et chiffrages, puis suivre chaque projet avec le fabricant jusqu'à l'installation.</p>
+      <p style="margin:0">Notre rôle : présenter les collections, conseiller sur les finitions, établir les chiffrages et, si cela est pertinent pour votre projet, vous fournir des échantillons, puis suivre chaque projet avec le fabricant jusqu'à l'installation.</p>
       <p style="margin:0">Ce que ces maisons ont en commun : un design scandinave intemporel, des matières choisies et des pièces conçues pour durer.</p>
       <div style="margin-top:28px;border-top:1px solid rgba(28,27,25,.14)">
         <sc-for list="{{ audiences }}" as="au" hint-placeholder-count="3">
@@ -1943,13 +1943,13 @@ class Component extends DCLogic {
       ],
       steps: [
         { n: '01', t: 'Présentation des collections', d: 'Rendez-vous en showroom ou sur site, catalogues et documentation technique.' },
-        { n: '02', t: 'Conseil et échantillons', d: 'Choix des finitions, échantillons de bois, cuirs et tissus.' },
+        { n: '02', t: 'Conseil et finitions', d: 'Choix des finitions, avec des échantillons de bois, cuirs et tissus selon le projet.' },
         { n: '03', t: 'Chiffrage et commande', d: 'Un interlocuteur unique entre vous et les fabricants danois.' },
         { n: '04', t: 'Suivi de projet', d: 'Délais, livraison et après-vente suivis jusqu\'à l\'installation.' }
       ],
       audiences: [
         { t: 'Revendeurs', d: 'Présentation des collections, conditions revendeurs et accompagnement commercial pour votre showroom.' },
-        { t: 'Architectes d\'intérieur', d: 'Documentation technique, échantillons et chiffrage pour vos projets résidentiels et contract.' },
+        { t: 'Architectes d\'intérieur', d: 'Documentation technique, chiffrage et, selon le projet, échantillons pour vos projets résidentiels et contract.' },
         { t: 'Collectivités et entreprises', d: 'Mobilier pour l\'éducation, les bureaux et les lieux publics, dont des sièges certifiés EU Ecolabel.' }
       ],
       refsHome: refs.slice(0, 3).map(rc), postsHome: posts.slice(0, 3).map(ac),

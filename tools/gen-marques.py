@@ -114,7 +114,7 @@ def brand_page(b):
     gal = b.get("gallery") or []
     if gal:
         h.append('<div class="w"><section><h2>En situation</h2><div class="gal">' + "".join(f'<figure><img src="{ea(url(g["src"]))}" alt="{ea(g["cap"])}" loading="lazy" width="800" height="600"><figcaption>{e(g["cap"])}</figcaption></figure>' for g in gal[:6]) + '</div></section></div>')
-    h.append('''<div class="w"><section><h2>Un projet avec cette marque ?</h2><p style="max-width:720px">Scanideal présente les collections, conseille sur les finitions, fournit échantillons et chiffrages, puis suit chaque projet avec le fabricant jusqu'à l'installation, partout en France.</p><a class="btn" href="/">Parlons de votre projet</a></section></div>''')
+    h.append('''<div class="w"><section><h2>Un projet avec cette marque ?</h2><p style="max-width:720px">Scanideal présente les collections, conseille sur les finitions, établit les chiffrages et, si cela est pertinent pour votre projet, peut fournir des échantillons, puis suit chaque projet avec le fabricant jusqu'à l'installation, partout en France.</p><a class="btn" href="/">Parlons de votre projet</a></section></div>''')
     title = f"{b['name']} en France | {b['tagline']} | Scanideal"
     if len(title) > 70: title = f"{b['name']} en France | Scanideal"
     desc = meta_desc(b)

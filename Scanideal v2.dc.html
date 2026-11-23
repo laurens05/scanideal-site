@@ -287,7 +287,8 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
     </div>
     <nav style="max-width:100%;overflow-x:auto;scrollbar-width:none;display:flex;gap:clamp(18px,3vw,48px);white-space:nowrap;align-items:center;padding-bottom:4px">
       <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
-        <button onClick="{{ n.go }}" style="background:none;border:0;padding:8px 0 10px;cursor:pointer;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:{{ n.color }};border-bottom:1px solid {{ n.line }}" style-hover="color:#7D5C36">{{ n.label }}</button>
+        <sc-if value="{{ n.href }}"><a href="{{ n.href }}" onClick="{{ n.go }}" style="display:inline-block;text-decoration:none;background:none;border:0;padding:8px 0 10px;cursor:pointer;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:{{ n.color }};border-bottom:1px solid {{ n.line }}" style-hover="color:#7D5C36">{{ n.label }}</a></sc-if>
+        <sc-if value="{{ n.nohref }}"><button onClick="{{ n.go }}" style="background:none;border:0;padding:8px 0 10px;cursor:pointer;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:{{ n.color }};border-bottom:1px solid {{ n.line }}" style-hover="color:#7D5C36">{{ n.label }}</button></sc-if>
       </sc-for>
     </nav>
   </div>
@@ -496,6 +497,35 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
           <span style="font-family:'Newsreader',serif;font-size:clamp(22px,2.2vw,28px);line-height:1.2;grid-column:span 2">{{ a.title }}</span>
         </button>
       </sc-for>
+    </div>
+  </section>
+  <section style="max-width:1440px;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4vw,56px) 0">
+    <h2 style="font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#6B655C;margin:0 0 36px;font-weight:400;font-family:inherit">Questions fréquentes</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px 56px">
+      <div style="border-top:1px solid #1C1B19;padding-top:24px">
+        <h3 style="font-family:'Newsreader',serif;font-weight:400;font-size:24px;line-height:1.25;margin:0 0 12px">Qui représente Fredericia, Naver Collection, Loca, CPH Lighting, VIA Copenhagen, Rye Sleep et Savir Design en France ?</h3>
+        <p style="margin:0;font-size:15px;line-height:1.65;color:#4A453E">Scanideal, agent commercial de ces sept maisons danoises, basé à Champagne-sur-Seine (77). Nous présentons les collections, conseillons sur les finitions, établissons les chiffrages et, si cela est pertinent pour votre projet, pouvons vous fournir des échantillons, puis suivons chaque projet avec le fabricant jusqu'à l'installation.</p>
+      </div>
+      <div style="border-top:1px solid #1C1B19;padding-top:24px">
+        <h3 style="font-family:'Newsreader',serif;font-weight:400;font-size:24px;line-height:1.25;margin:0 0 12px">Quelle est la zone d'intervention de Scanideal ?</h3>
+        <p style="margin:0;font-size:15px;line-height:1.65;color:#4A453E">Scanideal intervient dans toute la France, depuis son siège de Champagne-sur-Seine, en Seine-et-Marne.</p>
+      </div>
+      <div style="border-top:1px solid #1C1B19;padding-top:24px">
+        <h3 style="font-family:'Newsreader',serif;font-weight:400;font-size:24px;line-height:1.25;margin:0 0 12px">À qui s'adresse Scanideal ?</h3>
+        <p style="margin:0;font-size:15px;line-height:1.65;color:#4A453E">Aux revendeurs (showrooms), aux architectes d'intérieur pour leurs projets résidentiels et contract, ainsi qu'aux collectivités et aux entreprises : éducation, bureaux et lieux publics.</p>
+      </div>
+      <div style="border-top:1px solid #1C1B19;padding-top:24px">
+        <h3 style="font-family:'Newsreader',serif;font-weight:400;font-size:24px;line-height:1.25;margin:0 0 12px">Quels produits Scanideal propose-t-il ?</h3>
+        <p style="margin:0;font-size:15px;line-height:1.65;color:#4A453E">Du mobilier et des luminaires design danois : chaises, fauteuils, canapés et tables (Fredericia, Naver Collection, Savir Design), lits, matelas et oreillers (Rye Sleep), luminaires (CPH Lighting), patères, étagères et accessoires de rangement (Loca).</p>
+      </div>
+      <div style="border-top:1px solid #1C1B19;padding-top:24px">
+        <h3 style="font-family:'Newsreader',serif;font-weight:400;font-size:24px;line-height:1.25;margin:0 0 12px">Comment obtenir un chiffrage ou des échantillons ?</h3>
+        <p style="margin:0;font-size:15px;line-height:1.65;color:#4A453E">Depuis la page Contact : décrivez votre besoin (collections, finitions, échantillons, conditions revendeurs) et nous vous répondons personnellement. Nous établissons un chiffrage et, si cela est pertinent pour votre projet, nous pouvons vous fournir des échantillons de bois, de cuirs ou de tissus.</p>
+      </div>
+      <div style="border-top:1px solid #1C1B19;padding-top:24px">
+        <h3 style="font-family:'Newsreader',serif;font-weight:400;font-size:24px;line-height:1.25;margin:0 0 12px">Quelles garanties offrent les produits Fredericia ?</h3>
+        <p style="margin:0;font-size:15px;line-height:1.65;color:#4A453E">Pour les produits achetés depuis le 1er janvier 2023 : 25 ans sur les modèles phares (Spanish Chair, OX Chair, Queen Chair, Corona Chair, collection BM 22), 10 ans sur les canapés, 7 ans sur les fauteuils, chaises, tables et petits meubles, 2 ans sur les luminaires et accessoires.</p>
+      </div>
     </div>
   </section>
 </sc-if>
@@ -1218,7 +1248,8 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
       <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
         <div style="font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#6B655C;margin-bottom:6px">Explorer</div>
         <sc-for list="{{ nav }}" as="n" hint-placeholder-count="7">
-          <button onClick="{{ n.go }}" style="text-align:left;background:none;border:0;padding:0;cursor:pointer;font-size:14px;color:#1C1B19" style-hover="color:#7D5C36">{{ n.label }}</button>
+          <sc-if value="{{ n.href }}"><a href="{{ n.href }}" onClick="{{ n.go }}" style="text-align:left;text-decoration:none;background:none;border:0;padding:0;cursor:pointer;font-size:14px;color:#1C1B19" style-hover="color:#7D5C36">{{ n.label }}</a></sc-if>
+          <sc-if value="{{ n.nohref }}"><button onClick="{{ n.go }}" style="text-align:left;background:none;border:0;padding:0;cursor:pointer;font-size:14px;color:#1C1B19" style-hover="color:#7D5C36">{{ n.label }}</button></sc-if>
         </sc-for>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
@@ -1819,7 +1850,8 @@ class Component extends DCLogic {
     const rc = r => ({ ...r, pos: r.pos || 'center', brandsLabel: r.brands.join(' · '), open: () => this.go('ref', r.id) });
     const ac = a => ({ ...a, pos: a.pos || 'center', size: a.size || 'cover', bg: a.bg || 'transparent', open: () => this.go('article', a.id) });
     const navDef = [['Catalogue', 'catalogue', ['catalogue', 'product']], ['Marques', 'brands', ['brands', 'brand']], ['Designers', 'designers', ['designers', 'designer']], ['Savoir-faire', 'savoir', ['savoir']], ['Journal', 'journal', ['journal', 'article']], ['À propos', 'about', ['about']], ['Contact', 'contact', ['contact']]];
-    const nav = navDef.map(([label, pg, act]) => { const on = act.includes(s.page); return { label, go: () => this.go(pg), color: on ? '#1C1B19' : '#4A453E', line: on ? '#1C1B19' : 'transparent' }; });
+    const NAV_HREF = { catalogue: '/catalogue/', brands: '/marques/', contact: '/contact/' };
+    const nav = navDef.map(([label, pg, act]) => { const on = act.includes(s.page); return { label, href: NAV_HREF[pg] || '', nohref: !NAV_HREF[pg], go: (e) => { if (e && (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1)) return; if (e && e.preventDefault) e.preventDefault(); this.go(pg); }, color: on ? '#1C1B19' : '#4A453E', line: on ? '#1C1B19' : 'transparent' }; });
 
     const SLIDE_PICKS = [['fredericia', ['j39', 'nd83-lounge', 'plan-studio-3458', 'nd82-sofa', 'spanish-chair']], ['naver', ['obelisk-3182', 'tiger-chair', 'chess-3420']], ['loca', ['knax-10', 'knax-stool', 'straights-shelf']], ['cph', ['cph-eggy-pop-pendant', 'cph-peak', 'cph-nola-pendant']], ['rye', ['rye-curved', 'rye-veng', 'lit-rye']], ['viacph', ['hyperbel']], ['savir', ['gate-reflect', 'gate-11-lounge', 'tower']]];
     const slidesAll = [];

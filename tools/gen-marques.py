@@ -2,7 +2,7 @@
 """Génère les pages statiques /marques/<slug>/ (SEO) à partir des données du site.
 Usage : python3 tools/gen-marques.py   (depuis la racine du dépôt)
 Relancer après toute modification des marques ou des produits dans « Scanideal v2.dc.html »."""
-import json, os, re, subprocess, html, tempfile
+import json, os, re, subprocess, html, tempfile, datetime
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://scanideal.com"
 tmp = tempfile.mktemp(suffix=".json")
@@ -13,7 +13,19 @@ SLUG = {"fredericia":"fredericia","naver":"naver-collection","loca":"loca","cph"
 e = lambda t: html.escape(t, quote=False)
 ea = lambda t: html.escape(t, quote=True)
 def url(p): return p if p.startswith("http") else "/" + p.lstrip("/")
+def og_image(b):
+    if b["img"].startswith("http") and b.get("gallery"): return absu(b["gallery"][1 if len(b["gallery"]) > 1 else 0]["src"])
+    return absu(b["img"])
 def absu(p): return p if p.startswith("http") else SITE + "/" + p.lstrip("/")
+TITLES = {
+ "fredericia": "Fredericia en France | Mobilier design danois | Scanideal",
+ "naver": "Naver Collection en France | Bois massif danois | Scanideal",
+ "loca": "Loca en France | Patères, miroirs et rangements | Scanideal",
+ "cph": "CPH Lighting en France | Luminaires danois | Scanideal",
+ "rye": "Rye Sleep en France | Lits et literie danois | Scanideal",
+ "viacph": "VIA Copenhagen en France | Mobilier d'art danois | Scanideal",
+ "savir": "Savir Design en France | Mobilier collectif | Scanideal",
+}
 def meta_desc(b):
     base = f"{b['name']} en France, représentée par Scanideal : " + b["desc"]
     if len(base) <= 158: return base
@@ -68,19 +80,28 @@ def page(inner, title, desc, canon, og_img, jsonld, og_alt=""):
 </head>
 <body>
 <header><div class="w"><a href="/"><img src="/assets/scanideal-logo.png" alt="Scanideal"></a>
-<nav aria-label="Navigation principale"><a href="/">Accueil</a><a href="/marques/">Les marques</a><a href="/">Catalogue</a><a href="/">Contact</a></nav></div></header>
+<nav aria-label="Navigation principale"><a href="/">Accueil</a><a href="/marques/">Les marques</a><a href="/catalogue/">Catalogue</a><a href="/contact/">Contact</a></nav></div></header>
 <main>
 {inner}
 </main>
 <footer><div class="w">
 <div>Scanideal SARL, 100 rue Grande, 77430 Champagne-sur-Seine<br>Tél. 06 76 77 55 33 · <a href="mailto:contact.scanideal@gmail.com">contact.scanideal@gmail.com</a><br>SIREN 489 193 987, RCS Melun · Zone d'intervention : France entière</div>
-<div>Les marques : {" · ".join(f'<a href="/marques/{SLUG[b["id"]]}/">{e(b["name"])}</a>' for b in brands)}</div>
+<div><a href="/catalogue/">Catalogue</a> · <a href="/contact/">Contact</a><br>Les marques : {" · ".join(f'<a href="/marques/{SLUG[b["id"]]}/">{e(b["name"])}</a>' for b in brands)}</div>
 </div></footer>
 </body>
 </html>
 """
 
 ORG = {"@id": SITE + "/#organization"}
+SAMPLES = "Depuis la page Contact : décrivez votre besoin. Scanideal établit un chiffrage et, si cela est pertinent pour votre projet, peut fournir des échantillons, puis suit le projet avec le fabricant jusqu'à l'installation."
+def brand_faq(b, n):
+    n_ = b["name"]
+    qa = [(f"Qui représente {n_} en France ?", f"Scanideal, agent commercial de {n_} en France, basé à Champagne-sur-Seine (77). Nous intervenons dans toute la France auprès des revendeurs, architectes d'intérieur et collectivités."),
+          (f"Quelles pièces {n_} Scanideal présente-t-il ?", f"{n} pièce{'s' if n > 1 else ''} au catalogue : {b['cats'].rstrip('.')[:1].lower() + b['cats'].rstrip('.')[1:]}."),
+          (f"Comment obtenir un chiffrage {n_} ?", SAMPLES)]
+    g = (b.get("facts") or {}).get("guarantee")
+    if g and " : " in g: qa.append((f"Quelle garantie offre {n_} ?", g.split(" : ", 1)[1].strip()))
+    return qa
 def brand_page(b):
     slug = SLUG[b["id"]]; canon = f"{SITE}/marques/{slug}/"
     prods = [p for p in products if p["brand"] == b["id"]]
@@ -89,7 +110,7 @@ def brand_page(b):
     h = []
     h.append(f'''<div class="w"><div class="hero"><div><p class="eyebrow">Marque représentée en France</p><h1>{e(b["name"])}</h1><p class="lead">{e(b["tagline"])}</p>
 <p style="margin-top:32px">{e(b["desc"])}</p><p><strong style="font-weight:500">Gamme :</strong> {e(b["cats"])}</p>
-<a class="btn" href="/">Ouvrir le catalogue interactif</a> <a class="btn" style="background:none;color:#1C1B19;border:1px solid #1C1B19" href="/">Nous contacter</a></div>
+<a class="btn" href="/">Ouvrir le catalogue interactif</a> <a class="btn" style="background:none;color:#1C1B19;border:1px solid #1C1B19" href="/contact/">Nous contacter</a></div>
 <img src="{ea(url(b["img"]))}" alt="{ea(b["name"])}, {ea(b["tagline"].lower())}" width="1400" height="1050" fetchpriority="high"></div></div>''')
     st = b.get("story")
     if st:
@@ -114,14 +135,16 @@ def brand_page(b):
     gal = b.get("gallery") or []
     if gal:
         h.append('<div class="w"><section><h2>En situation</h2><div class="gal">' + "".join(f'<figure><img src="{ea(url(g["src"]))}" alt="{ea(g["cap"])}" loading="lazy" width="800" height="600"><figcaption>{e(g["cap"])}</figcaption></figure>' for g in gal[:6]) + '</div></section></div>')
-    h.append('''<div class="w"><section><h2>Un projet avec cette marque ?</h2><p style="max-width:720px">Scanideal présente les collections, conseille sur les finitions, établit les chiffrages et, si cela est pertinent pour votre projet, peut fournir des échantillons, puis suit chaque projet avec le fabricant jusqu'à l'installation, partout en France.</p><a class="btn" href="/">Parlons de votre projet</a></section></div>''')
-    title = f"{b['name']} en France | {b['tagline']} | Scanideal"
-    if len(title) > 70: title = f"{b['name']} en France | Scanideal"
+    qa = brand_faq(b, len(prods))
+    h.append('<div class="w"><section><h2>Questions fréquentes</h2>' + "".join(f'<h3>{e(q)}</h3><p>{e(a)}</p>' for q, a in qa) + '</section></div>')
+    h.append('''<div class="w"><section><h2>Un projet avec cette marque ?</h2><p style="max-width:720px">Scanideal présente les collections, conseille sur les finitions, établit les chiffrages et, si cela est pertinent pour votre projet, peut fournir des échantillons, puis suit chaque projet avec le fabricant jusqu'à l'installation, partout en France.</p><a class="btn" href="/contact/">Parlons de votre projet</a></section></div>''')
+    title = TITLES[b["id"]]
     desc = meta_desc(b)
-    img = absu(b["img"])
+    img = og_image(b)
     jl = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebPage", "@id": canon, "url": canon, "name": title, "description": desc, "inLanguage": "fr-FR", "isPartOf": {"@id": SITE + "/#website"}, "about": {"@id": canon + "#brand"}, "breadcrumb": {"@id": canon + "#breadcrumb"}, "primaryImageOfPage": img},
         {"@type": "Brand", "@id": canon + "#brand", "name": b["name"], "description": b["desc"], "slogan": b["tagline"], "url": canon, "image": img},
+        {"@type": "FAQPage", "@id": canon + "#faq", "inLanguage": "fr-FR", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qa]},
         {"@type": "BreadcrumbList", "@id": canon + "#breadcrumb", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE + "/"},
             {"@type": "ListItem", "position": 2, "name": "Les marques", "item": SITE + "/marques/"},
@@ -133,14 +156,45 @@ def index_page():
     canon = SITE + "/marques/"
     cards = "".join(f'''<div><a href="/marques/{SLUG[b["id"]]}/" style="text-decoration:none"><img src="{ea(url(b["img"]))}" alt="{ea(b["name"])}" loading="lazy" width="800" height="600" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#EAE4DA;margin-bottom:16px"><h3>{e(b["name"])}</h3></a><p style="font-size:15px;margin:0 0 8px">{e(b["tagline"])}</p><p style="font-size:14px;color:#6B655C;margin:0">{len([p for p in products if p["brand"]==b["id"]])} pièces · {e(b["cats"])}</p></div>''' for b in brands)
     inner = f'''<div class="w"><section style="padding-top:clamp(48px,7vw,96px)"><p class="eyebrow">Les marques</p><h1>Sept maisons danoises</h1><p class="lead">Mobilier, luminaires et literie design, représentés en France par Scanideal.</p></section>
-<section><div class="grid">{cards}</div></section></div>'''
+<section><h2>Les sept marques que nous représentons</h2><div class="grid">{cards}</div></section></div>'''
     desc = "Les sept maisons danoises représentées en France par Scanideal : Fredericia, Naver Collection, Loca, CPH Lighting, VIA Copenhagen, Rye Sleep et Savir Design."
     title = "Les marques danoises représentées en France | Scanideal"
     jl = {"@context": "https://schema.org", "@graph": [
         {"@type": "CollectionPage", "@id": canon, "url": canon, "name": title, "description": desc, "inLanguage": "fr-FR", "isPartOf": {"@id": SITE + "/#website"}},
         {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": b["name"], "url": f"{SITE}/marques/{SLUG[b['id']]}/"} for i, b in enumerate(brands)]},
         {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE + "/"}, {"@type": "ListItem", "position": 2, "name": "Les marques", "item": canon}]}]}
-    return page(inner, title, desc, canon, absu(brands[0]["img"]), jl)
+    return page(inner, title, desc, canon, og_image(brands[0]), jl)
+
+def catalogue_page():
+    canon = SITE + "/catalogue/"
+    blocks = []
+    for b in brands:
+        prods = [p for p in products if p["brand"] == b["id"]]
+        cats = {}
+        for p in prods: cats[p["cat"]] = cats.get(p["cat"], 0) + 1
+        chips = "".join(f"<li>{e(c)} <small>({k})</small></li>" for c, k in cats.items())
+        blocks.append(f'<div><h2><a href="/marques/{SLUG[b["id"]]}/" style="text-decoration:none">{e(b["name"])}</a></h2><p>{e(b["tagline"])}. {len(prods)} pièce{"s" if len(prods) > 1 else ""} au catalogue.</p><ul class="chips">{chips}</ul><p style="margin-top:16px"><a href="/marques/{SLUG[b["id"]]}/">Voir la fiche {e(b["name"])}</a></p></div>')
+    inner = f'''<div class="w"><section style="padding-top:clamp(48px,7vw,96px)"><p class="eyebrow">Catalogue</p><h1>Mobilier et luminaires design danois</h1><p class="lead">{len(products)} pièces de sept maisons danoises, représentées en France par Scanideal.</p>
+<a class="btn" href="/">Ouvrir le catalogue interactif</a></section>
+<section><div class="grid">{"".join(blocks)}</div></section></div>'''
+    title = "Catalogue mobilier et luminaires design danois | Scanideal"
+    desc = f"Catalogue Scanideal : {len(products)} pièces de mobilier, luminaires et literie design danois, de sept maisons représentées en France."
+    jl = {"@context": "https://schema.org", "@graph": [
+        {"@type": "CollectionPage", "@id": canon, "url": canon, "name": title, "description": desc, "inLanguage": "fr-FR", "isPartOf": {"@id": SITE + "/#website"}},
+        {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE + "/"}, {"@type": "ListItem", "position": 2, "name": "Catalogue", "item": canon}]}]}
+    return page(inner, title, desc, canon, og_image(brands[0]), jl)
+
+def contact_page():
+    canon = SITE + "/contact/"
+    inner = '''<div class="w"><section style="padding-top:clamp(48px,7vw,96px)"><p class="eyebrow">Contact</p><h1>Parlons de votre projet</h1><p class="lead">Un interlocuteur unique en France pour sept maisons danoises.</p>
+<div class="grid" style="margin-top:48px"><div><h2 style="font-size:28px">Coordonnées</h2><p>Scanideal SARL<br>100 rue Grande<br>77430 Champagne-sur-Seine</p><p>Téléphone : <a href="tel:+33676775533">06 76 77 55 33</a><br>E-mail : <a href="mailto:contact.scanideal@gmail.com">contact.scanideal@gmail.com</a><br>Instagram : <a href="https://www.instagram.com/scanideal">@scanideal</a></p><p>Zone d'intervention : France entière.<br>SIREN 489 193 987, RCS Melun.</p></div>
+<div><h2 style="font-size:28px">Comment ça se passe</h2><p>Décrivez votre besoin par e-mail ou par téléphone : collections, finitions, conditions revendeurs. Scanideal présente les collections, conseille sur les finitions, établit un chiffrage et, si cela est pertinent pour votre projet, peut fournir des échantillons, puis suit le projet avec le fabricant jusqu'à l'installation.</p><a class="btn" href="mailto:contact.scanideal@gmail.com">Écrire à Scanideal</a> <a class="btn" style="background:none;color:#1C1B19;border:1px solid #1C1B19" href="/">Formulaire de contact</a></div></div></section></div>'''
+    title = "Contact Scanideal | Agent des marques danoises en France"
+    desc = "Contactez Scanideal, agent commercial de sept maisons danoises de mobilier et luminaires en France : chiffrage, finitions, conditions revendeurs."
+    jl = {"@context": "https://schema.org", "@graph": [
+        {"@type": "ContactPage", "@id": canon, "url": canon, "name": title, "description": desc, "inLanguage": "fr-FR", "isPartOf": {"@id": SITE + "/#website"}, "about": ORG},
+        {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE + "/"}, {"@type": "ListItem", "position": 2, "name": "Contact", "item": canon}]}]}
+    return page(inner, title, desc, canon, og_image(brands[0]), jl)
 
 def write(path, content):
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -150,10 +204,12 @@ for b in brands:
     slug, content = brand_page(b)
     write(f"{ROOT}/marques/{slug}/index.html", content)
 write(f"{ROOT}/marques/index.html", index_page())
+write(f"{ROOT}/catalogue/index.html", catalogue_page())
+write(f"{ROOT}/contact/index.html", contact_page())
 
-today = "2026-11-20"
-urls = [SITE + "/", SITE + "/marques/"] + [f"{SITE}/marques/{SLUG[b['id']]}/" for b in brands]
+today = datetime.date.today().isoformat()
+urls = [SITE + "/", SITE + "/marques/", SITE + "/catalogue/", SITE + "/contact/"] + [f"{SITE}/marques/{SLUG[b['id']]}/" for b in brands]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
     f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>{'1.0' if u.endswith('.com/') else '0.8'}</priority>\n  </url>\n" for u in urls) + "</urlset>\n"
 write(ROOT + "/sitemap.xml", sm)
-print("pages:", len(brands) + 1, "urls sitemap:", len(urls))
+print("pages:", len(brands) + 3, "urls sitemap:", len(urls))

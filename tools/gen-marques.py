@@ -85,7 +85,7 @@ def page(inner, title, desc, canon, og_img, jsonld, og_alt=""):
 {inner}
 </main>
 <footer><div class="w">
-<div>Scanideal SARL, 100 rue Grande, 77430 Champagne-sur-Seine<br>Tél. 06 76 77 55 33 · <a href="mailto:contact.scanideal@gmail.com">contact.scanideal@gmail.com</a><br>SIREN 489 193 987, RCS Melun · Zone d'intervention : France entière</div>
+<div>Scanideal SARL, 100 rue Grande, 77430 Champagne-sur-Seine<br>Tél. 06 76 77 55 33 · <a href="mailto:info@scanideal.com">info@scanideal.com</a><br>SIREN 489 193 987, RCS Melun · Zone d'intervention : France entière</div>
 <div><a href="/catalogue/">Catalogue</a> · <a href="/contact/">Contact</a><br>Les marques : {" · ".join(f'<a href="/marques/{SLUG[b["id"]]}/">{e(b["name"])}</a>' for b in brands)}</div>
 </div></footer>
 </body>
@@ -187,8 +187,8 @@ def catalogue_page():
 def contact_page():
     canon = SITE + "/contact/"
     inner = '''<div class="w"><section style="padding-top:clamp(48px,7vw,96px)"><p class="eyebrow">Contact</p><h1>Parlons de votre projet</h1><p class="lead">Un interlocuteur unique en France pour sept maisons danoises.</p>
-<div class="grid" style="margin-top:48px"><div><h2 style="font-size:28px">Coordonnées</h2><p>Scanideal SARL<br>100 rue Grande<br>77430 Champagne-sur-Seine</p><p>Téléphone : <a href="tel:+33676775533">06 76 77 55 33</a><br>E-mail : <a href="mailto:contact.scanideal@gmail.com">contact.scanideal@gmail.com</a><br>Instagram : <a href="https://www.instagram.com/scanideal">@scanideal</a></p><p>Zone d'intervention : France entière.<br>SIREN 489 193 987, RCS Melun.</p></div>
-<div><h2 style="font-size:28px">Comment ça se passe</h2><p>Décrivez votre besoin par e-mail ou par téléphone : collections, finitions, conditions revendeurs. Scanideal présente les collections, conseille sur les finitions, établit un chiffrage et, si cela est pertinent pour votre projet, peut fournir des échantillons, puis suit le projet avec le fabricant jusqu'à l'installation.</p><a class="btn" href="mailto:contact.scanideal@gmail.com">Écrire à Scanideal</a> <a class="btn" style="background:none;color:#1C1B19;border:1px solid #1C1B19" href="/">Formulaire de contact</a></div></div></section></div>'''
+<div class="grid" style="margin-top:48px"><div><h2 style="font-size:28px">Coordonnées</h2><p>Scanideal SARL<br>100 rue Grande<br>77430 Champagne-sur-Seine</p><p>Téléphone : <a href="tel:+33676775533">06 76 77 55 33</a><br>E-mail : <a href="mailto:info@scanideal.com">info@scanideal.com</a><br>Instagram : <a href="https://www.instagram.com/scanideal">@scanideal</a></p><p>Zone d'intervention : France entière.<br>SIREN 489 193 987, RCS Melun.</p></div>
+<div><h2 style="font-size:28px">Comment ça se passe</h2><p>Décrivez votre besoin par e-mail ou par téléphone : collections, finitions, conditions revendeurs. Scanideal présente les collections, conseille sur les finitions, établit un chiffrage et, si cela est pertinent pour votre projet, peut fournir des échantillons, puis suit le projet avec le fabricant jusqu'à l'installation.</p><a class="btn" href="mailto:info@scanideal.com">Écrire à Scanideal</a> <a class="btn" style="background:none;color:#1C1B19;border:1px solid #1C1B19" href="/">Formulaire de contact</a></div></div></section></div>'''
     title = "Contact Scanideal | Agent des marques danoises en France"
     desc = "Contactez Scanideal, agent commercial de sept maisons danoises de mobilier et luminaires en France : chiffrage, finitions, conditions revendeurs."
     jl = {"@context": "https://schema.org", "@graph": [

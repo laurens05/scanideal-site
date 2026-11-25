@@ -1223,6 +1223,7 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
             <span style="color:#A33A2B;letter-spacing:0;text-transform:none;font-size:13px">{{ errors.message }}</span>
           </label>
           <button onClick="{{ submit }}" style="background:#1C1B19;color:#F4F0E9;border:0;padding:18px 24px;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;cursor:pointer" style-hover="background:#7D5C36">Envoyer la demande</button>
+          <span style="color:#A33A2B;font-size:13px;line-height:1.5">{{ errors.send }}</span>
         </div>
       </sc-if>
     </div>
@@ -1243,6 +1244,7 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
             <input value="{{ nl }}" onChange="{{ setNl }}" placeholder="Votre e-mail pour les nouveautés" style="flex:1;min-width:0;background:transparent;border:0;padding:12px 0;font-size:14px;outline:none;color:#1C1B19">
             <button onClick="{{ subscribe }}" style="background:none;border:0;cursor:pointer;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase">S'inscrire</button>
           </div>
+          <div style="font-size:13px;color:#A33A2B;margin-top:8px;max-width:380px">{{ nlErr }}</div>
         </sc-if>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
@@ -1311,7 +1313,8 @@ html[lang="fr"] .lsw [data-lang="fr"],html[lang="en"] .lsw [data-lang="en"]{colo
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;heroLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Plein écran&quot;,&quot;Éditorial&quot;],&quot;default&quot;:&quot;Plein écran&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Accueil&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Aérée&quot;,&quot;Compacte&quot;],&quot;default&quot;:&quot;Aérée&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Catalogue&quot;}}">
 class Component extends DCLogic {
-  state = { page: 'home', param: null, slide: 0, xi: 0, fm: null, brandF: 'all', catF: 'Tous', q: '', sel: [], drawer: false, fOpen: false, finish: 0, f2: 0, f3: 0, fab: null, fcol: null, fo: null, go: null, zoom: false, gal: null, qty: 1, acc: 'dims', refF: 'Tous', blogF: 'Tous', form: { name: '', email: '', company: '', profile: "Architecte d'intérieur", message: '' }, errors: {}, sent: false, nl: '', nlDone: false };
+  post = (name, data) => fetch('/contact/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ 'form-name': name, ...data }).toString() }).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); });
+  state = { nlErr: '', page: 'home', param: null, slide: 0, xi: 0, fm: null, brandF: 'all', catF: 'Tous', q: '', sel: [], drawer: false, fOpen: false, finish: 0, f2: 0, f3: 0, fab: null, fcol: null, fo: null, go: null, zoom: false, gal: null, qty: 1, acc: 'dims', refF: 'Tous', blogF: 'Tous', form: { name: '', email: '', company: '', profile: "Architecte d'intérieur", message: '' }, errors: {}, sent: false, nl: '', nlDone: false };
 
   D = (() => {
     const B = 'https://scanideal1.netlify.app/images/';
@@ -2023,10 +2026,10 @@ class Component extends DCLogic {
         if (!f.name.trim()) e.name = 'Merci d\'indiquer votre nom.';
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) e.email = 'Adresse e-mail invalide.';
         if (f.message.trim().length < 10) e.message = 'Précisez votre demande en quelques mots.';
-        if (Object.keys(e).length) this.setState({ errors: e }); else { this.setState({ sent: true, sel: [] }); try { window.scrollTo({ top: 0 }); } catch (x) {} }
+        if (Object.keys(e).length) { this.setState({ errors: e }); return; } if (this.sendBusy) return; this.sendBusy = true; this.setState({ errors: {} }); this.post('contact', { name: f.name, email: f.email, company: f.company, profile: f.profile || '', message: f.message }).then(() => { this.setState({ sent: true, sel: [] }); try { window.scrollTo({ top: 0 }); } catch (x) {} }).catch(() => this.setState({ errors: { send: 'Envoi impossible pour le moment. Réessayez ou écrivez à info@scanideal.com.' } })).then(() => { this.sendBusy = false; });
       },
-      nl: s.nl, setNl: e => this.setState({ nl: e.target.value }), nlDone: s.nlDone, nlOpen: !s.nlDone,
-      subscribe: () => { if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.nl)) this.setState({ nlDone: true }); }
+      nlErr: s.nlErr, nl: s.nl, setNl: e => this.setState({ nl: e.target.value }), nlDone: s.nlDone, nlOpen: !s.nlDone,
+      subscribe: () => { if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.nl) || this.nlBusy) return; this.nlBusy = true; this.post('newsletter', { email: s.nl }).then(() => this.setState({ nlDone: true, nlErr: '' })).catch(() => this.setState({ nlErr: 'Envoi impossible pour le moment. Réessayez ou écrivez à info@scanideal.com.' })).then(() => { this.nlBusy = false; }); }
     };
   }
 }
